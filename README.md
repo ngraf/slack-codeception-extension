@@ -1,6 +1,6 @@
 slack-codeception-extension
 =============================
-This package provides an extension for Codeception to broadcast test results in Slack messenger
+This package provides an extension for Codeception to send test results to Slack channels and/or users.
 
 Pre-requisites
 -------------
@@ -58,4 +58,4 @@ Example
 
 Dependencies
 -----
-This package uses the package `maknz/slack` to communicate with the Slack API.
+This package uses the package [maknz/slack](https://github.com/maknz/slack) to communicate with the Slack API.
