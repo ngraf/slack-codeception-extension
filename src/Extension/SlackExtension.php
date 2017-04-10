@@ -46,7 +46,12 @@ class SlackExtension extends \Codeception\Extension
     /**
      * @var string
      */
-    protected $messageSuffix;
+    protected $messageSuffix = '';
+
+    /**
+     * @var string
+     */
+    protected $messageSuffixOnFail = '';
 
     /**
      * @var array Array of slack channels
@@ -108,6 +113,10 @@ class SlackExtension extends \Codeception\Extension
 
         if (isset($this->config['messageSuffix'])) {
             $this->messageSuffix = ' ' . $this->config['messageSuffix'];
+        }
+
+        if (isset($this->config['messageSuffixOnFail'])) {
+            $this->messageSuffixOnFail = ' ' . $this->config['messageSuffixOnFail'];
         }
 
         if (isset($this->config['strategy'])) {
@@ -210,10 +219,11 @@ class SlackExtension extends \Codeception\Extension
             $this->message->setChannel(trim($channel));
 
             $this->message->send(
-                ':interrobang: '
+                ''
                 . $this->messagePrefix
                 . $numberOfFailedTests . ' of ' . $numberOfTests . ' tests failed.'
                 . $this->messageSuffix
+                . $this->messageSuffixOnFail
             );
         }
     }
@@ -230,6 +240,12 @@ class SlackExtension extends \Codeception\Extension
              * @var $failure \PHPUnit_Framework_TestFailure
              */
             $exceptionMsg = strtok($failure->exceptionMessage(), "\n");
+
+            $result = json_decode($exceptionMsg);
+
+            if (json_last_error() === JSON_ERROR_NONE && isset($result->errorMessage)) {
+                $exceptionMsg = $result->errorMessage;
+            }
 
             if ($this->extendedMaxLength > 0  && strlen($exceptionMsg) > $this->extendedMaxLength) {
                 $exceptionMsg =  substr($exceptionMsg, 0, $this->extendedMaxLength) . ' ...';

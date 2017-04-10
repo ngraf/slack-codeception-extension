@@ -41,6 +41,7 @@ Enable and configure the extension in your `codeception.yaml`
            icon:              :ghost:
            messagePrefix:     '*Smoke-Test*'
            messageSuffix:     <http://my-ci/my-job|Link>
+           messageSuffixOnFail: <!channel>
            
            # possible notification strategies: always|failonly|failandrecover|statuschange
            strategy:          always
