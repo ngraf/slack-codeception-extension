@@ -219,7 +219,7 @@ class SlackExtension extends \Codeception\Extension
             $this->message->setChannel(trim($channel));
 
             $this->message->send(
-                ''
+                ':interrobang: '
                 . $this->messagePrefix
                 . $numberOfFailedTests . ' of ' . $numberOfTests . ' tests failed.'
                 . $this->messageSuffix
