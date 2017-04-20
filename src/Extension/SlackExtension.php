@@ -112,7 +112,17 @@ class SlackExtension extends \Codeception\Extension
         }
 
         if (isset($this->config['messageSuffix'])) {
-            $this->messageSuffix = ' ' . $this->config['messageSuffix'];
+            $messageSuffix = $this->config['messageSuffix'];
+
+            if (substr($this->config['messageSuffix'], 0, 1) === '"') {
+                $messageSuffix = substr($messageSuffix, 1);
+            };
+
+            if (substr($this->config['messageSuffix'], -1) === '"') {
+                $messageSuffix = substr($messageSuffix, 0, strlen($messageSuffix) - 1);
+            };
+
+            $this->messageSuffix = ' ' . $messageSuffix;
         }
 
         if (isset($this->config['messageSuffixOnFail'])) {
@@ -196,7 +206,7 @@ class SlackExtension extends \Codeception\Extension
                 ':white_check_mark: '
                 . $this->messagePrefix
                 . $numberOfTests . ' of ' . $numberOfTests . ' tests passed.'
-                . $this->messageSuffix
+                . str_replace('\\n', PHP_EOL, $this->messageSuffix)
             );
         }
     }
@@ -222,7 +232,7 @@ class SlackExtension extends \Codeception\Extension
                 ':interrobang: '
                 . $this->messagePrefix
                 . $numberOfFailedTests . ' of ' . $numberOfTests . ' tests failed.'
-                . $this->messageSuffix
+                . str_replace('\\n', PHP_EOL, $this->messageSuffix)
                 . $this->messageSuffixOnFail
             );
         }
