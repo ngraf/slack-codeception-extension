@@ -43,7 +43,7 @@ Enable and configure the extension in your `codeception.yaml`
            messageSuffix:     <http://my-ci/my-job|Link>
            messageSuffixOnFail: <!channel>
            
-           # possible notification strategies: always|failonly|failandrecover|statuschange
+           # possible notification strategies: always|successonly|failonly|failandrecover|statuschange
            strategy:          always
            
            # If 'true' details about failed tests will be displayed. Default value: 'false'

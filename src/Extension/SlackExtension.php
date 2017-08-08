@@ -25,7 +25,7 @@ class SlackExtension extends \Codeception\Extension
     const STRATEGY_FAIL_ONLY = 'failonly';
     const STRATEGY_FAIL_AND_RECOVER = 'failandrecover';
     const STRATEGY_STATUS_CHANGE = 'statuschange';
-
+    const STRATEGY_SUCCESS_ONLY = 'successonly';
     /**
      * @var array list events to listen to
      */
@@ -64,7 +64,11 @@ class SlackExtension extends \Codeception\Extension
     protected $strategy = self::STRATEGY_ALWAYS;
 
     protected $strategies = array(
-        self::STRATEGY_ALWAYS, self::STRATEGY_FAIL_ONLY, self::STRATEGY_FAIL_AND_RECOVER, self::STRATEGY_STATUS_CHANGE
+        self::STRATEGY_ALWAYS,
+        self::STRATEGY_FAIL_ONLY,
+        self::STRATEGY_FAIL_AND_RECOVER,
+        self::STRATEGY_STATUS_CHANGE,
+        self::STRATEGY_SUCCESS_ONLY
     );
 
     /**
@@ -173,6 +177,7 @@ class SlackExtension extends \Codeception\Extension
         if ($result->wasSuccessful()) {
 
             if (self::STRATEGY_ALWAYS === $this->strategy
+                || self::STRATEGY_SUCCESS_ONLY === $this->strategy
                 || ($this->lastRunFailed && $this->strategy === self::STRATEGY_FAIL_AND_RECOVER)
                 || ($this->lastRunFailed && $this->strategy === self::STRATEGY_STATUS_CHANGE)
             ) {
