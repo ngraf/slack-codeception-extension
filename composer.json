@@ -1,5 +1,5 @@
 {
-  "name"        : "ngraf/slack-codeception-extension",
+  "name"        : "sergiosinicin/slack-codeception-extension",
   "description" : "This package provides an extension for Codeception to broadcast test results in Slack messenger ",
   "keywords" : [
     "codeception",
