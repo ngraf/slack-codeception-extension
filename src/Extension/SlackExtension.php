@@ -1,6 +1,8 @@
 <?php
 namespace Codeception\Extension;
 
+use Codeception\Event\SuiteEvent;
+use Codeception\Events;
 use Codeception\Exception\ExtensionException;
 use Maknz\Slack\Client;
 use Maknz\Slack\Message;
@@ -30,8 +32,9 @@ class SlackExtension extends \Codeception\Extension
      * @var array list events to listen to
      */
     public static $events = array(
-        'result.print.after' => 'sendTestResults',
+        Events::SUITE_AFTER => 'sendTestResults',
     );
+
 
     /**
      * @var Message
@@ -156,7 +159,7 @@ class SlackExtension extends \Codeception\Extension
         }
 
         if (isset($this->config['extendedMaxLength'])) {
-            $this->extendedMaxLength = intval($this->config['extendedMaxLength']);
+            $this->extendedMaxLength = (int)$this->config['extendedMaxLength'];
         }
 
         $this->lastRunFailed = $this->hasLastRunFailed();
@@ -168,9 +171,9 @@ class SlackExtension extends \Codeception\Extension
      * Sends test results to Slack channels.
      *
      * This method is fired when the event 'result.print.after' occurs.
-     * @param \Codeception\Event\PrintResultEvent $e
+     * @param SuiteEvent $e
      */
-    public function sendTestResults(\Codeception\Event\PrintResultEvent $e)
+    public function sendTestResults($e)
     {
         $result = $e->getResult();
 
