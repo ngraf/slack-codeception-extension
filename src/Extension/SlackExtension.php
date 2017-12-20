@@ -1,7 +1,9 @@
 <?php
 namespace Codeception\Extension;
 
+use Codeception\Events;
 use Codeception\Exception\ExtensionException;
+use Codeception\Extension;
 use Maknz\Slack\Client;
 use Maknz\Slack\Message;
 
@@ -19,7 +21,7 @@ use Maknz\Slack\Message;
  *          SlackExtension:
  *            webhook: 'https://hooks.slack.com/services/...'
  */
-class SlackExtension extends \Codeception\Extension
+class SlackExtension extends Extension
 {
     const STRATEGY_ALWAYS = 'always';
     const STRATEGY_FAIL_ONLY = 'failonly';
@@ -30,7 +32,7 @@ class SlackExtension extends \Codeception\Extension
      * @var array list events to listen to
      */
     public static $events = array(
-        'result.print.after' => 'sendTestResults',
+        Events::RESULT_PRINT_AFTER => 'sendTestResults',
     );
 
     /**
@@ -57,6 +59,13 @@ class SlackExtension extends \Codeception\Extension
      * @var array Array of slack channels
      */
     protected $channels;
+
+    /**
+     * @var array Array of slack channels for the special case of failure.
+     *            Defined by Codeception config "channelOnFail".
+     *            This Codeception configuration is optional, otherwise "channel" will be used.
+     */
+    protected $channelOnFail;
 
     /**
      * @var boolean If set to true notifications will be send only when at least one test fails.
@@ -100,6 +109,11 @@ class SlackExtension extends \Codeception\Extension
         $client = new Client($this->config['webhook']);
 
         if (isset($this->config['channel'])) {
+            if (true === empty($this->config['channel'])) {
+                throw new ExtensionException(
+                    $this, "SlackExtension: The specified value for key \"channel\" must not be empty."
+                );
+            }
             $this->channels = explode(',', $this->config['channel']);
         }
 
@@ -131,6 +145,14 @@ class SlackExtension extends \Codeception\Extension
 
         if (isset($this->config['messageSuffixOnFail'])) {
             $this->messageSuffixOnFail = ' ' . $this->config['messageSuffixOnFail'];
+        }
+        if (isset($this->config['channelOnFail'])) {
+            if (true === empty($this->config['channelOnFail'])) {
+                throw new ExtensionException(
+                    $this, "SlackExtension: The specified value for key \"channelOnFail\" must not be empty."
+                );
+            }
+            $this->channelOnFail = explode(',', $this->config['channelOnFail']);
         }
 
         if (isset($this->config['strategy'])) {
@@ -230,7 +252,9 @@ class SlackExtension extends \Codeception\Extension
             $this->attachExtendedInformation($this->message, $result);
         }
 
-        foreach ($this->channels as $channel) {
+        $targetChannels = isset($this->channelOnFail) ? $this->channelOnFail : $this->channels;
+
+        foreach ($targetChannels as $channel) {
             $this->message->setChannel(trim($channel));
 
             $this->message->send(
