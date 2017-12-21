@@ -36,12 +36,6 @@ Enable and configure the extension in your `codeception.yaml`
     config:
         Codeception\Extension\SlackExtension:
            webhook:           https://hooks.slack.com/services/...
-           channel:           '#any-channel,@any-user'
-           username:          CI
-           icon:              :ghost:
-           messagePrefix:     '*Smoke-Test*'
-           messageSuffix:     <http://my-ci/my-job|Link>
-           messageSuffixOnFail: <!channel>
            
            # possible notification strategies: always|successonly|failonly|failandrecover|statuschange
            strategy:          always
@@ -51,6 +45,19 @@ Enable and configure the extension in your `codeception.yaml`
            
            # Limit the size of error messages in extended mode. 0 = unlimited. Default value: 80
            extendedMaxLength: 80
+           
+           # customize your message with additional prefix and/or suffix
+           
+           messagePrefix:     '*Smoke-Test*'
+           messageSuffix:     <http://my-ci/my-job|Link>
+           messageSuffixOnFail: <!channel>
+           
+           # optional config keys that will overwrite the default configuration of the webhook
+                      
+           channel:           '#any-channel,@any-user'
+           channelOnFail:     '#any-channel,@any-user'
+           username:          CI
+           icon:              :ghost:
            
 Example
 -----
