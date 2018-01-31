@@ -252,7 +252,8 @@ class SlackExtension extends Extension
             $this->attachExtendedInformation($this->message, $result);
         }
 
-        $targetChannels = (false !== empty($this->channelOnFail)) ? $this->channelOnFail : $this->channels;
+        $targetChannels = (is_array($this->channelOnFail) && count($this->channelOnFail) > 0) ?
+            $this->channelOnFail : $this->channels;
 
         foreach ($targetChannels as $channel) {
             $this->message->setChannel(trim($channel));
