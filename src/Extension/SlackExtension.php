@@ -221,9 +221,9 @@ class SlackExtension extends Extension
     /**
      * Sends success message to Slack channels.
      *
-     * @param \PHPUnit_Framework_TestResult $result
+     * @param \PHPUnit\Framework\TestResult $result
      */
-    private function sendSuccessMessage(\PHPUnit_Framework_TestResult $result)
+    private function sendSuccessMessage(\PHPUnit\Framework\TestResult $result)
     {
         $numberOfTests = $result->count();
 
@@ -241,9 +241,9 @@ class SlackExtension extends Extension
     /**
      * Sends fail message to Slack channels.
      *
-     * @param \PHPUnit_Framework_TestResult $result
+     * @param \PHPUnit\Framework\TestResult $result
      */
-    private function sendFailMessage(\PHPUnit_Framework_TestResult $result)
+    private function sendFailMessage(\PHPUnit\Framework\TestResult $result)
     {
         $numberOfTests = $result->count();
         $numberOfFailedTests = $result->failureCount() + $result->errorCount();
@@ -270,9 +270,9 @@ class SlackExtension extends Extension
 
     /**
      *
-     * @param \PHPUnit_Framework_TestResult $result
+     * @param \PHPUnit\Framework\TestResult $result
      */
-    private function attachExtendedInformation(Message &$message, \PHPUnit_Framework_TestResult $result) {
+    private function attachExtendedInformation(Message &$message, \PHPUnit\Framework\TestResult $result) {
         $fields = [];
 
         foreach (array_merge($result->failures(), $result->errors()) as $failure) {

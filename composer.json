@@ -1,5 +1,5 @@
 {
-  "name"        : "ngraf/slack-codeception-extension",
+  "name"        : "7170/slack-codeception-extension",
   "description" : "This package provides an extension for Codeception to broadcast test results in Slack messenger ",
   "keywords" : [
     "codeception",
@@ -11,6 +11,12 @@
     "email"    : "derbimmel@gmail.com",
     "homepage" : "https://github.com/ngraf",
     "role"     : "Developer"
+  },
+  {
+  "name"     : "Christopher Rousseau",
+  "email"    : "rousseau.christopher76@gmail.com",
+  "homepage" : "https://github.com/7170",
+  "role"     : "Developer"
   }],
   "autoload" : {
     "psr-4" : {
