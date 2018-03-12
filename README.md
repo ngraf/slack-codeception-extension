@@ -11,9 +11,9 @@ Pre-requisites
 Installation
 -----------
 
-Add the package `ngraf/slack-codeception-extension` to `composer.json` manually or type this in console:
+Add the package `7170/slack-codeception-extension` to `composer.json` manually or type this in console:
 
-    composer require ngraf/slack-codeception-extension
+    composer require 7170/slack-codeception-extension
     
 Usage
 -----
