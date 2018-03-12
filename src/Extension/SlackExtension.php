@@ -6,6 +6,8 @@ use Codeception\Exception\ExtensionException;
 use Codeception\Extension;
 use Maknz\Slack\Client;
 use Maknz\Slack\Message;
+use PHPUnit\Framework\TestFailure;
+use PHPUnit\Framework\TestResult;
 
 /**
  * This extension sends the test results to Slack channels.
@@ -134,11 +136,11 @@ class SlackExtension extends Extension
 
             if (substr($this->config['messageSuffix'], 0, 1) === '"') {
                 $messageSuffix = substr($messageSuffix, 1);
-            };
+            }
 
             if (substr($this->config['messageSuffix'], -1) === '"') {
                 $messageSuffix = substr($messageSuffix, 0, strlen($messageSuffix) - 1);
-            };
+            }
 
             $this->messageSuffix = ' ' . $messageSuffix;
         }
@@ -221,9 +223,9 @@ class SlackExtension extends Extension
     /**
      * Sends success message to Slack channels.
      *
-     * @param \PHPUnit_Framework_TestResult $result
+     * @param TestResult $result
      */
-    private function sendSuccessMessage(\PHPUnit_Framework_TestResult $result)
+    private function sendSuccessMessage(TestResult $result)
     {
         $numberOfTests = $result->count();
 
@@ -241,9 +243,9 @@ class SlackExtension extends Extension
     /**
      * Sends fail message to Slack channels.
      *
-     * @param \PHPUnit_Framework_TestResult $result
+     * @param TestResult $result
      */
-    private function sendFailMessage(\PHPUnit_Framework_TestResult $result)
+    private function sendFailMessage(TestResult $result)
     {
         $numberOfTests = $result->count();
         $numberOfFailedTests = $result->failureCount() + $result->errorCount();
@@ -270,14 +272,14 @@ class SlackExtension extends Extension
 
     /**
      *
-     * @param \PHPUnit_Framework_TestResult $result
+     * @param TestResult $result
      */
-    private function attachExtendedInformation(Message &$message, \PHPUnit_Framework_TestResult $result) {
+    private function attachExtendedInformation(Message &$message, TestResult $result) {
         $fields = [];
 
         foreach (array_merge($result->failures(), $result->errors()) as $failure) {
             /**
-             * @var $failure \PHPUnit_Framework_TestFailure
+             * @var $failure TestFailure
              */
             $exceptionMsg = strtok($failure->exceptionMessage(), "\n");
 
