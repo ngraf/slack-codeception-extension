@@ -1,4 +1,5 @@
 <?php
+
 namespace Codeception\Extension;
 
 use Codeception\Events;
@@ -60,7 +61,7 @@ class SlackExtension extends Extension
     /**
      * @var array Array of slack channels
      */
-    protected $channels;
+    protected $channels = [];
 
     /**
      * @var array Array of slack channels for the special case of failure.
@@ -93,6 +94,11 @@ class SlackExtension extends Extension
     protected $lastRunFailed;
 
     /**
+     * @var \Maknz\Slack\Client
+     */
+    protected $client;
+
+    /**
      * @var int Maximum length for error messages to be displayed in extended mode.
      */
     protected $extendedMaxLength = 80;
@@ -105,10 +111,10 @@ class SlackExtension extends Extension
     public function _initialize()
     {
         if (!isset($this->config['webhook']) or empty($this->config['webhook'])) {
-            throw new ExtensionException($this, "SlackExtension requires a value for 'webhook'.");
+            return;
         }
 
-        $client = new Client($this->config['webhook']);
+        $this->client = new Client($this->config['webhook']);
 
         if (isset($this->config['channel'])) {
             if (true === empty($this->config['channel'])) {
@@ -120,11 +126,11 @@ class SlackExtension extends Extension
         }
 
         if (isset($this->config['username'])) {
-            $client->setDefaultUsername($this->config['username']);
+            $this->client->setDefaultUsername($this->config['username']);
         }
 
         if (isset($this->config['icon'])) {
-            $client->setDefaultIcon($this->config['icon']);
+            $this->client->setDefaultIcon($this->config['icon']);
         }
 
         if (isset($this->config['messagePrefix'])) {
@@ -185,7 +191,7 @@ class SlackExtension extends Extension
 
         $this->lastRunFailed = $this->hasLastRunFailed();
 
-        $this->message = $client->createMessage();
+        $this->message = $this->client->createMessage();
     }
 
     /**
@@ -196,6 +202,10 @@ class SlackExtension extends Extension
      */
     public function sendTestResults(\Codeception\Event\PrintResultEvent $e)
     {
+        if (is_null($this->client)) {
+            return;
+        }
+
         $result = $e->getResult();
 
         if ($result->wasSuccessful()) {

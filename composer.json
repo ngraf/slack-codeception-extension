@@ -1,23 +1,26 @@
 {
-  "name"        : "ngraf/slack-codeception-extension",
-  "description" : "This package provides an extension for Codeception to broadcast test results in Slack messenger ",
-  "keywords" : [
+  "name": "ngraf/slack-codeception-extension",
+  "description": "This package provides an extension for Codeception to broadcast test results in Slack messenger ",
+  "keywords": [
     "codeception",
     "slack",
     "extension"
   ],
-  "authors" : [{
-    "name"     : "Norbert Graf",
-    "email"    : "derbimmel@gmail.com",
-    "homepage" : "https://github.com/ngraf",
-    "role"     : "Developer"
-  }],
-  "autoload" : {
-    "psr-4" : {
-      "Codeception\\" : "src"
+  "authors": [
+    {
+      "name": "Norbert Graf",
+      "email": "derbimmel@gmail.com",
+      "homepage": "https://github.com/ngraf",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Codeception\\": "src"
     }
   },
   "require": {
-    "maknz/slack": "^1.7"
+    "maknz/slack": "^1.7",
+    "codeception/codeception": "^3.0"
   }
 }
