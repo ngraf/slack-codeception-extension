@@ -104,6 +104,11 @@ class SlackExtension extends Extension
     protected $extendedMaxLength = 80;
 
     /**
+     * @var int|null The maximum amount of errors to send
+     */
+    protected $extendedMaxErrors = 0;
+
+    /**
      * Setup Slack client and message object.
      *
      * @throws ExtensionException in case required configuration for 'webhook' is missing
@@ -183,6 +188,10 @@ class SlackExtension extends Extension
             && (true === $this->config['extended'] || 'true' === $this->config['extended'])
         ) {
             $this->extended = true;
+        }
+
+        if (isset($this->config['extendedMaxErrors'])) {
+            $this->extendedMaxErrors = max((int) $this->config['extendedMaxErrors'], 0);
         }
 
         if (isset($this->config['extendedMaxLength'])) {
@@ -286,8 +295,14 @@ class SlackExtension extends Extension
      */
     private function attachExtendedInformation(Message &$message, TestResult $result) {
         $fields = [];
+        $failures = array_merge($result->failures(), $result->errors());
+        $omittedFailures = 0;
+        if ($this->extendedMaxErrors > 0) {
+            $omittedFailures = count($failures) - $this->extendedMaxErrors;
+            $failures = array_slice($failures, 0, $this->extendedMaxErrors);
+        }
 
-        foreach (array_merge($result->failures(), $result->errors()) as $failure) {
+        foreach ($failures as $failure) {
             /**
              * @var $failure TestFailure
              */
@@ -306,6 +321,13 @@ class SlackExtension extends Extension
             $fields[] = [
                 'title' => $failure->getTestName(),
                 'value' => $exceptionMsg
+            ];
+        }
+
+        if ($omittedFailures > 0) {
+            $fields[] = [
+                'title' => sprintf('%d other tests...', $omittedFailures),
+                'value' => '',
             ];
         }
 
