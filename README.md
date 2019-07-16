@@ -46,7 +46,7 @@ Enable and configure the extension in your `codeception.yaml`
            # Limit the size of error messages in extended mode. 0 = unlimited. Default value: 80
            extendedMaxLength: 80
            
-           # Limit the amount of reported errors in extended mode. 0 = unlimited. Default value: 10
+           # Limit the amount of reported errors in extended mode. 0 = unlimited. Default value: 0
            extendedMaxErrors: 10
            
            # customize your message with additional prefix and/or suffix
