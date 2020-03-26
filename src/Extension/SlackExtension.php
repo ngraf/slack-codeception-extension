@@ -116,7 +116,7 @@ class SlackExtension extends Extension
     public function _initialize()
     {
         if (!isset($this->config['webhook']) or empty($this->config['webhook'])) {
-            return;
+            throw new ExtensionException($this, "configuration for 'webhook' is missing");
         }
 
         $this->client = new Client($this->config['webhook']);

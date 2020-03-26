@@ -24,43 +24,43 @@ Enable and configure the extension in your `codeception.yaml`
     extensions:
       enabled:
         - Codeception\Extension\SlackExtension
-    config:
-      Codeception\Extension\SlackExtension:
-         webhook: https://hooks.slack.com/services/...
+      config:
+        Codeception\Extension\SlackExtension:
+           webhook: https://hooks.slack.com/services/...
            
 **Advanced** usage:
 
     extensions:
-       enabled:
-         - Codeception\Extension\SlackExtension
-    config:
+      enabled:
+        - Codeception\Extension\SlackExtension
+      config:
         Codeception\Extension\SlackExtension:
-           webhook:           https://hooks.slack.com/services/...
+          webhook:           https://hooks.slack.com/services/...
            
-           # possible notification strategies: always|successonly|failonly|failandrecover|statuschange
-           strategy:          always
+          # possible notification strategies: always|successonly|failonly|failandrecover|statuschange
+          strategy:          always
            
-           # If 'true' details about failed tests will be displayed. Default value: 'false'
-           extended:          true
+          # If 'true' details about failed tests will be displayed. Default value: 'false'
+          extended:          true
            
-           # Limit the size of error messages in extended mode. 0 = unlimited. Default value: 80
-           extendedMaxLength: 80
+          # Limit the size of error messages in extended mode. 0 = unlimited. Default value: 80
+          extendedMaxLength: 80
            
-           # Limit the amount of reported errors in extended mode. 0 = unlimited. Default value: 0
-           extendedMaxErrors: 10
+          # Limit the amount of reported errors in extended mode. 0 = unlimited. Default value: 0
+          extendedMaxErrors: 10
            
-           # customize your message with additional prefix and/or suffix
+          # customize your message with additional prefix and/or suffix
            
-           messagePrefix:     '*Smoke-Test*'
-           messageSuffix:     <http://my-ci/my-job|Link>
-           messageSuffixOnFail: <!channel>
+          messagePrefix:     '*Smoke-Test*'
+          messageSuffix:     <http://my-ci/my-job|Link>
+          messageSuffixOnFail: <!channel>
            
-           # optional config keys that will overwrite the default configuration of the webhook
+          # optional config keys that will overwrite the default configuration of the webhook
                       
-           channel:           '#any-channel,@any-user'
-           channelOnFail:     '#any-channel,@any-user'
-           username:          CI
-           icon:              :ghost:
+          channel:           '#any-channel,@any-user'
+          channelOnFail:     '#any-channel,@any-user'
+          username:          CI
+          icon:              :ghost:
            
 Example
 -----
